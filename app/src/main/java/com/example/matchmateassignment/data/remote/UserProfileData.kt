@@ -14,8 +14,4 @@ data class UserProfileData(
     data class Login(val uuid: String)
     data class Dob(val date: String, val age: Int)
     data class Picture(val large: String)
-
-    override fun toString(): String {
-        return "UserProfileData(gender='$gender', name=$name, location=$location, login=$login, dob=$dob, picture=$picture)"
-    }
 }

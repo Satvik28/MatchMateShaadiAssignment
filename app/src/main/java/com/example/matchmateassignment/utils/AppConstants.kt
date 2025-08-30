@@ -1,7 +1,8 @@
 package com.example.matchmateassignment.utils
 
 object AppConstants {
-    const val REMOTE_API_RESULTS = 10
+    const val REMOTE_API_RESULTS = 15
+    const val DATA_LOAD_THRESHOLD = 5
     const val REMOTE_API_SEED = "matchmate"
     const val REMOTE_API_INCLUDED_FIELDS = "gender,name,location,login,dob,picture"
     const val REMOTE_API_NATIONALITY = "in,us"

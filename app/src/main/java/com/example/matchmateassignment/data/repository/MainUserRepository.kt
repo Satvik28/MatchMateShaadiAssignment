@@ -1,41 +1,35 @@
 package com.example.matchmateassignment.data.repository
 
-import android.util.Log
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.example.matchmateassignment.data.local.UserProfileDataBase
 import com.example.matchmateassignment.data.local.UserProfileDbData
 import com.example.matchmateassignment.data.local.UserStatus
+import com.example.matchmateassignment.data.mediator.UserRemoteMediator
 import com.example.matchmateassignment.data.remote.UserApi
-import com.example.matchmateassignment.data.toDbList
-import com.example.matchmateassignment.ui.UiEvents
+import com.example.matchmateassignment.utils.AppConstants
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@OptIn(ExperimentalPagingApi::class)
 class MainUserRepository @Inject constructor(
     private val api: UserApi,
-    localDatabase: UserProfileDataBase
+    private val userProfileDataBase: UserProfileDataBase
 ) {
-    val dao = localDatabase.userProfileDao()
+    val dao = userProfileDataBase.userProfileDao()
 
-    fun getUsers(): Flow<UiEvents<List<UserProfileDbData>>> = flow {
-        emit(UiEvents.Loading)
-        emitAll(
-            dao.getAllUsers().onEach { localData ->
-                if (localData.isEmpty()) {
-                    try {
-                        val response = api.getUserList()
-                        val dbData = response.results.toDbList()
-                        dao.upsertUsers(dbData)
-                    } catch (e: Exception) {
-                        Log.e(TAG,"Exception occurred ${e.message}")
-                        emit(UiEvents.Error("Failed to get data from remote"))
-                    }
-                }
-            }.map { localData -> UiEvents.Success(localData) }
-        )
+    fun getUsers(): Flow<PagingData<UserProfileDbData>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = AppConstants.REMOTE_API_RESULTS,
+                prefetchDistance = AppConstants.DATA_LOAD_THRESHOLD,
+                enablePlaceholders = false
+            ),
+            remoteMediator = UserRemoteMediator(api, userProfileDataBase),
+            pagingSourceFactory = { dao.getAllUsersWithPaging() }
+        ).flow
     }
 
     suspend fun changeUserStatus(uuid: String, userStatus: UserStatus) {

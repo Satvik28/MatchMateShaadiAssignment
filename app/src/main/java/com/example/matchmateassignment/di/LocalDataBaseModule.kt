@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.matchmateassignment.data.local.UserProfileDataBase
 import com.example.matchmateassignment.data.local.UserProfileDbDao
+import com.example.matchmateassignment.data.mediator.RemoteKeyDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +24,7 @@ object LocalDataBaseModule {
         return Room.databaseBuilder(
             applicationContext,
             UserProfileDataBase::class.java,
-            "user_profile_db"
+            "user_database"
         ).build()
     }
 
@@ -31,5 +32,11 @@ object LocalDataBaseModule {
     @Singleton
     fun getUserProfileDao(userDatabase: UserProfileDataBase): UserProfileDbDao {
         return userDatabase.userProfileDao()
+    }
+
+    @Provides
+    @Singleton
+    fun getRemoteKeyDao(userDatabase: UserProfileDataBase): RemoteKeyDao {
+        return userDatabase.remoteKeyDao()
     }
 }

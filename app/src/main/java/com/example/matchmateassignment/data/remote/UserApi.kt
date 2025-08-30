@@ -7,8 +7,8 @@ import retrofit2.http.Query
 interface UserApi {
     @GET("api/")
     suspend fun getUserList(
-        @Query("page") page: Int = 1,
-        @Query("results") results: Int = AppConstants.REMOTE_API_RESULTS,
+        @Query("page") page: Int,
+        @Query("results") results: Int,
         @Query("seed") seed: String = AppConstants.REMOTE_API_SEED,
         @Query("inc") inc: String = AppConstants.REMOTE_API_INCLUDED_FIELDS,
         @Query("nat") nat: String = AppConstants.REMOTE_API_NATIONALITY

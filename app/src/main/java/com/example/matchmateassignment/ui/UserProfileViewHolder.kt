@@ -14,33 +14,35 @@ class UserProfileViewHolder(
     private val onDeclineClick: (UserProfileDbData) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(
-        user: UserProfileDbData,
+        user: UserProfileDbData?,
     ) {
         with(binding) {
-            userName.text = user.fullName
-            userCity.text = user.city
+            user?.let { user ->
+                userName.text = user.fullName
+                userCity.text = user.city
 
+                Glide.with(itemView.context)
+                    .load(user.pictureUrl)
+                    .circleCrop()
+                    .into(userImage)
 
-            Glide.with(itemView.context)
-                .load(user.pictureUrl)
-                .circleCrop()
-                .into(userImage)
+                val color = when (user.status) {
+                    UserStatus.DEFAULT -> R.color.white
+                    UserStatus.ACCEPTED -> R.color.light_green
+                    UserStatus.DECLINED -> R.color.light_red
+                }
+                // TODO score logic
 
-            val color = when (user.status) {
-                UserStatus.DEFAULT -> R.color.white
-                UserStatus.ACCEPTED -> R.color.light_green
-                UserStatus.DECLINED -> R.color.light_red
-            }
-            // TODO score logic
+                userCard.setCardBackgroundColor(ContextCompat.getColor(userCard.context, color))
 
-            userCard.setCardBackgroundColor(ContextCompat.getColor(userCard.context, color))
+                acceptButton.setOnClickListener {
+                    onAcceptClick(user)
+                }
 
-            acceptButton.setOnClickListener {
-                onAcceptClick(user)
-            }
+                declineButton.setOnClickListener {
+                    onDeclineClick(user)
+                }
 
-            declineButton.setOnClickListener {
-                onDeclineClick(user)
             }
         }
     }

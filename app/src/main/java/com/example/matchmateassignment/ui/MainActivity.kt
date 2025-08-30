@@ -14,8 +14,8 @@ import com.example.matchmateassignment.R
 import com.example.matchmateassignment.data.local.UserStatus
 import com.example.matchmateassignment.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlin.getValue
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
                 userViewModel.changeUserStatus(it.uuid, UserStatus.DECLINED)
             }
         )
+
         with(binding) {
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
@@ -44,19 +45,12 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                userViewModel.usersState.collect {
-                    when (it) {
-                        is UiEvents.Error -> {}
-                        is UiEvents.Loading -> {}
-                        is UiEvents.Success -> {
-                            adapter.submitList(it.data)
-                        }
-                    }
+                userViewModel.userList.collectLatest {
+                    adapter.submitData(it)
                 }
             }
         }
     }
-
 
 
     companion object {

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MatchMateAssignment</string>
+    <string name="match_score_format">Match Score: %d</string>
+    <string name="user_age_string">Age: %d</string>
 </resources>

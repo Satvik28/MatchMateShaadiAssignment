@@ -17,7 +17,6 @@ import com.example.matchmateassignment.R
 import com.example.matchmateassignment.data.local.UserStatus
 import com.example.matchmateassignment.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

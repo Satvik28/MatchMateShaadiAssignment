@@ -7,6 +7,7 @@ import com.example.matchmateassignment.R
 import com.example.matchmateassignment.data.local.UserProfileDbData
 import com.example.matchmateassignment.data.local.UserStatus
 import com.example.matchmateassignment.databinding.UserItemBinding
+import com.example.matchmateassignment.utils.MatchScore
 
 class UserProfileViewHolder(
     private val binding: UserItemBinding,
@@ -19,7 +20,8 @@ class UserProfileViewHolder(
         with(binding) {
             user?.let { user ->
                 userName.text = user.fullName
-                userCity.text = String.format("%s, %s, %s", user.city, user.state, user.country)
+                userCity.text = String.format("%s, %s", user.city, user.state)
+                userAge.text = itemView.context.getString(R.string.user_age_string, user.age)
 
                 Glide.with(itemView.context)
                     .load(user.pictureUrl)
@@ -32,7 +34,12 @@ class UserProfileViewHolder(
                     UserStatus.ACCEPTED -> R.color.light_green
                     UserStatus.DECLINED -> R.color.light_red
                 }
-                // TODO score logic
+
+                val score = MatchScore.getMatchScore(user)
+                binding.matchScore.text =
+                    itemView.context.getString(
+                        R.string.match_score_format, score
+                    )
 
                 userCard.setCardBackgroundColor(ContextCompat.getColor(userCard.context, color))
 

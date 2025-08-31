@@ -8,4 +8,6 @@ object AppConstants {
     const val REMOTE_API_BASE_URL = "https://randomuser.me/"
     val familyList: List<String> = listOf("Joint", "Nuclear")
     val dietOptions: List<String> = listOf("Veg", "Jain", "Non-Veg", "Vegan")
+
+    const val MAX_AGE_DIFFERENCE = 30.0
 }

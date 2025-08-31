@@ -32,7 +32,7 @@ data class UserProfileData(
                 dob = dob.date,
                 age = dob.age,
                 pictureUrl = picture.large,
-                familyType = AppConstants.familyList.random(),
+                familyType = AppConstants.familyTypeList.random(),
                 dietOption = AppConstants.dietOptions.random(),
                 status = UserStatus.DEFAULT
             )

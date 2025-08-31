@@ -38,12 +38,12 @@ class UserProfileViewHolder(
                     )
 
                     UserStatus.ACCEPTED -> ContextCompat.getColor(
-                        userCard.context,
+                        itemView.context,
                         R.color.light_green
                     )
 
                     UserStatus.DECLINED -> ContextCompat.getColor(
-                        userCard.context,
+                        itemView.context,
                         R.color.light_red
                     )
                 }

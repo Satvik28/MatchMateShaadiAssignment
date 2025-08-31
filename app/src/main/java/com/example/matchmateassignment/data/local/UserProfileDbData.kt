@@ -23,4 +23,8 @@ data class UserProfileDbData(
     fun getFullName(): String {
         return "$title $firstName $lastName"
     }
+
+    fun getCityState(): String {
+        return "$city, $state"
+    }
 }

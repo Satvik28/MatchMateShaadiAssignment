@@ -22,7 +22,7 @@ class UserProfileViewHolder(
         with(binding) {
             user?.let { user ->
                 userName.text = user.getFullName()
-                userCity.text = String.format("%s, %s", user.city, user.state)
+                userCity.text = user.getCityState()
                 userAge.text = itemView.context.getString(R.string.user_age_string, user.age)
 
                 Glide.with(itemView.context)

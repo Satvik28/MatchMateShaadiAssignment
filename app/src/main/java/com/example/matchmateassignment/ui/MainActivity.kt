@@ -2,18 +2,22 @@ package com.example.matchmateassignment.ui
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.matchmateassignment.R
 import com.example.matchmateassignment.data.local.UserStatus
 import com.example.matchmateassignment.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -29,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.rootLayout)
-        val adapter = UserListAdapter(
+        val userListAdapter = UserListAdapter(
             onAcceptClick = {
                 userViewModel.changeUserStatus(it.uuid, UserStatus.ACCEPTED)
             },
@@ -37,16 +41,71 @@ class MainActivity : AppCompatActivity() {
                 userViewModel.changeUserStatus(it.uuid, UserStatus.DECLINED)
             }
         )
+        val mainCombinedAdapter = userListAdapter.withLoadStateFooter(
+            footer = UserLoadStateAdapter(userListAdapter::retry)
+        )
 
         with(binding) {
-            recyclerView.adapter = adapter
+            recyclerView.adapter = mainCombinedAdapter
             recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
         }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    userListAdapter.loadStateFlow.collectLatest { loadStates ->
+
+                        when (loadStates.refresh) {
+                            is LoadState.Loading -> {
+                                binding.progressBar.isVisible = true
+                                binding.recyclerView.isVisible = false
+                                binding.emptyDefaultView.isVisible = false
+                            }
+
+                            is LoadState.Error -> {
+                                if (userListAdapter.itemCount == 0) {
+                                    binding.emptyDefaultView.isVisible = true
+                                } else {
+                                    binding.progressBar.isVisible = false
+                                    binding.recyclerView.isVisible = true
+                                    binding.emptyDefaultView.isVisible = false
+                                }
+
+                            }
+
+                            is LoadState.NotLoading -> {
+                                binding.progressBar.isVisible = false
+                                val isEmptyList = userListAdapter.itemCount == 0
+                                binding.emptyDefaultView.isVisible = isEmptyList
+                                binding.recyclerView.isVisible = !isEmptyList
+                            }
+                        }
+
+                        when (loadStates.append) {
+                            is LoadState.Error -> {
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Error occurred",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            is LoadState.Loading -> {
+                                // do nothing
+                            }
+
+                            is LoadState.NotLoading -> {
+                                // do nothing
+                            }
+                        }
+
+                    }
+                }
+            }
+            launch {
                 userViewModel.userList.collectLatest {
-                    adapter.submitData(it)
+                    //delay(2000)
+                    userListAdapter.submitData(it)
                 }
             }
         }
@@ -56,3 +115,4 @@ class MainActivity : AppCompatActivity() {
         const val TAG = "MainActivity"
     }
 }
+

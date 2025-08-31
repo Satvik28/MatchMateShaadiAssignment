@@ -19,10 +19,11 @@ class UserProfileViewHolder(
         with(binding) {
             user?.let { user ->
                 userName.text = user.fullName
-                userCity.text = user.city
+                userCity.text = String.format("%s, %s, %s", user.city, user.state, user.country)
 
                 Glide.with(itemView.context)
                     .load(user.pictureUrl)
+                    .placeholder(R.drawable.sharp_person_3_24)
                     .circleCrop()
                     .into(userImage)
 

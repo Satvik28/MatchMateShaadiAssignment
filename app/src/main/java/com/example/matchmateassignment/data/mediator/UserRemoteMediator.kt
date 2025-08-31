@@ -39,12 +39,20 @@ class UserRemoteMediator(
                 }
             }
 
+//            if (page == 2) {
+//                throw RuntimeException("Error occurred on page $page")
+//            }
+
+//            if (page == 1) {
+//                return MediatorResult.Success(endOfPaginationReached = false)
+//            }
+
             val response = userApi.getUserList(page = page, results = state.config.pageSize)
             val users = response.results.toDbList()
             val endOfPagination = users.isEmpty()
 
             userDatabase.withTransaction {
-                if (loadType == LoadType.REFRESH) {
+                if (loadType == LoadType.REFRESH) { // not consider in our case we want same data generation
                     remoteKeyDao.clearRemoteKeys()
                     userDao.clearAll()
                 }

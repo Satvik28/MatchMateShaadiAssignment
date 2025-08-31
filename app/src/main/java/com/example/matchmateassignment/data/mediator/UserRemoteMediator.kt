@@ -8,7 +8,7 @@ import androidx.room.withTransaction
 import com.example.matchmateassignment.data.local.UserProfileDataBase
 import com.example.matchmateassignment.data.local.UserProfileDbData
 import com.example.matchmateassignment.data.remote.UserApi
-import com.example.matchmateassignment.data.toDbList
+import com.example.matchmateassignment.data.remote.UserProfileData.Companion.toDbList
 
 @OptIn(ExperimentalPagingApi::class)
 class UserRemoteMediator(

@@ -27,7 +27,7 @@ class MainUserRepository @Inject constructor(
                 prefetchDistance = AppConstants.DATA_LOAD_THRESHOLD,
                 enablePlaceholders = false
             ),
-            remoteMediator = UserRemoteMediator(api, userProfileDataBase),
+            remoteMediator = UserRemoteMediator(userApi = api, userDatabase = userProfileDataBase),
             pagingSourceFactory = { dao.getAllUsersWithPaging() }
         ).flow
     }

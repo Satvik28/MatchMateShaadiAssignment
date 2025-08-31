@@ -10,7 +10,6 @@ interface UserApi {
         @Query("page") page: Int,
         @Query("results") results: Int,
         @Query("seed") seed: String = AppConstants.REMOTE_API_SEED,
-        @Query("inc") inc: String = AppConstants.REMOTE_API_INCLUDED_FIELDS,
-        @Query("nat") nat: String = AppConstants.REMOTE_API_NATIONALITY
+        @Query("inc") inc: String = AppConstants.REMOTE_API_INCLUDED_FIELDS
     ): ProfileDataResponse
 }

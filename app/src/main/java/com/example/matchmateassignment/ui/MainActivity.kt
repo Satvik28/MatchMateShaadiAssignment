@@ -53,6 +53,12 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
+                    userViewModel.userList.collectLatest {
+                        //delay(2000)
+                        userListAdapter.submitData(it)
+                    }
+                }
+                launch {
                     userListAdapter.loadStateFlow.collectLatest { loadStates ->
 
                         when (loadStates.refresh) {
@@ -63,10 +69,10 @@ class MainActivity : AppCompatActivity() {
                             }
 
                             is LoadState.Error -> {
+                                binding.progressBar.isVisible = false
                                 if (userListAdapter.itemCount == 0) {
                                     binding.emptyDefaultView.isVisible = true
                                 } else {
-                                    binding.progressBar.isVisible = false
                                     binding.recyclerView.isVisible = true
                                     binding.emptyDefaultView.isVisible = false
                                 }
@@ -100,12 +106,6 @@ class MainActivity : AppCompatActivity() {
                         }
 
                     }
-                }
-            }
-            launch {
-                userViewModel.userList.collectLatest {
-                    //delay(2000)
-                    userListAdapter.submitData(it)
                 }
             }
         }

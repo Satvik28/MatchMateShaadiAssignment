@@ -1,5 +1,6 @@
 [versions]
 agp = "8.12.2"
+flakerAndroidOkhttp = "0.1.2"
 glide = "4.16.0"
 kotlin = "2.2.10"
 coreKtx = "1.17.0"
@@ -20,6 +21,8 @@ paging = "3.3.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+flaker-android-okhttp = { module = "io.github.rotbolt:flaker-android-okhttp", version.ref = "flakerAndroidOkhttp" }
+flaker-android-okhttp-noop = { module = "io.github.rotbolt:flaker-android-okhttp-noop", version.ref = "flakerAndroidOkhttp" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

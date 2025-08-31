@@ -69,4 +69,6 @@ dependencies {
     implementation(libs.glide)
     ksp(libs.glide.compiler)
     implementation(libs.androidx.paging.runtime.ktx)
+    debugImplementation(libs.flaker.android.okhttp)
+    releaseImplementation(libs.flaker.android.okhttp.noop)
 }

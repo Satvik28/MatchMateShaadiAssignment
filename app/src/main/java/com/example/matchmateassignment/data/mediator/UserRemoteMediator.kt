@@ -52,7 +52,7 @@ class UserRemoteMediator(
             val endOfPagination = users.isEmpty()
 
             userDatabase.withTransaction {
-                if (loadType == LoadType.REFRESH) { // not consider in our case we want same data generation
+                if (loadType == LoadType.REFRESH && users.isNotEmpty()) { // not consider in our case we want same data generation
                     remoteKeyDao.clearRemoteKeys()
                     userDao.clearAll()
                 }

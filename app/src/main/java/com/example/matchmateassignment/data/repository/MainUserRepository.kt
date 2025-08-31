@@ -8,14 +8,14 @@ import com.example.matchmateassignment.data.local.UserProfileDataBase
 import com.example.matchmateassignment.data.local.UserProfileDbData
 import com.example.matchmateassignment.data.local.UserStatus
 import com.example.matchmateassignment.data.mediator.UserRemoteMediator
-import com.example.matchmateassignment.data.remote.UserApi
+import com.example.matchmateassignment.data.remote.RemoteDataApi
 import com.example.matchmateassignment.utils.AppConstants
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
 class MainUserRepository @Inject constructor(
-    private val api: UserApi,
+    private val api: RemoteDataApi,
     private val userProfileDataBase: UserProfileDataBase
 ) {
     val dao = userProfileDataBase.userProfileDao()
@@ -27,7 +27,7 @@ class MainUserRepository @Inject constructor(
                 prefetchDistance = AppConstants.DATA_LOAD_THRESHOLD,
                 enablePlaceholders = false
             ),
-            remoteMediator = UserRemoteMediator(userApi = api, userDatabase = userProfileDataBase),
+            remoteMediator = UserRemoteMediator(remoteDataApi = api, userDatabase = userProfileDataBase),
             pagingSourceFactory = { dao.getAllUsersWithPaging() }
         ).flow
     }

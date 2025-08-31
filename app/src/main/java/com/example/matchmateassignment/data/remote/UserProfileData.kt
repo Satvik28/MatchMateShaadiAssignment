@@ -20,10 +20,11 @@ data class UserProfileData(
 
     companion object {
         fun UserProfileData.toDbData(): UserProfileDbData {
-            val fullName = "${name.first} ${name.last}"
             return UserProfileDbData(
                 uuid = login.uuid,
-                fullName = fullName,
+                title = name.title,
+                firstName = name.first,
+                lastName = name.last,
                 gender = gender,
                 city = location.city,
                 state = location.state,

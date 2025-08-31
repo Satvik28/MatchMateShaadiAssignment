@@ -1,6 +1,6 @@
 package com.example.matchmateassignment.di
 
-import com.example.matchmateassignment.data.remote.UserApi
+import com.example.matchmateassignment.data.remote.RemoteDataApi
 import com.example.matchmateassignment.utils.AppConstants
 import dagger.Module
 import dagger.Provides
@@ -40,7 +40,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun getUserApi(retrofit: Retrofit): UserApi {
-        return retrofit.create(UserApi::class.java)
+    fun getUserApi(retrofit: Retrofit): RemoteDataApi {
+        return retrofit.create(RemoteDataApi::class.java)
     }
 }

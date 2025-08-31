@@ -3,9 +3,9 @@ package com.example.matchmateassignment.ui
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import com.example.matchmateassignment.data.local.UserProfileDbData
 import com.example.matchmateassignment.databinding.UserItemBinding
+import com.example.matchmateassignment.utils.DiffUtil
 
 class UserListAdapter(
     private val onAcceptClick: (UserProfileDbData) -> Unit,
@@ -19,22 +19,5 @@ class UserListAdapter(
 
     override fun onBindViewHolder(holder: UserProfileViewHolder, position: Int) {
         holder.bind(getItem(position))
-    }
-
-    class DiffUtil : DiffUtil.ItemCallback<UserProfileDbData>() {
-        override fun areItemsTheSame(
-            oldItem: UserProfileDbData,
-            newItem: UserProfileDbData
-        ): Boolean {
-            return oldItem.uuid == newItem.uuid
-        }
-
-
-        override fun areContentsTheSame(
-            oldItem: UserProfileDbData,
-            newItem: UserProfileDbData
-        ): Boolean {
-            return oldItem == newItem
-        }
     }
 }

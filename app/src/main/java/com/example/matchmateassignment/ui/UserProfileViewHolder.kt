@@ -1,13 +1,15 @@
 package com.example.matchmateassignment.ui
 
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.matchmateassignment.R
 import com.example.matchmateassignment.data.local.UserProfileDbData
 import com.example.matchmateassignment.data.local.UserStatus
 import com.example.matchmateassignment.databinding.UserItemBinding
-import com.example.matchmateassignment.utils.MatchScore
+import com.example.matchmateassignment.di.LocalDataBaseEntryPoint
+import com.google.android.material.color.MaterialColors
 
 class UserProfileViewHolder(
     private val binding: UserItemBinding,
@@ -19,7 +21,7 @@ class UserProfileViewHolder(
     ) {
         with(binding) {
             user?.let { user ->
-                userName.text = user.fullName
+                userName.text = user.getFullName()
                 userCity.text = String.format("%s, %s", user.city, user.state)
                 userAge.text = itemView.context.getString(R.string.user_age_string, user.age)
 
@@ -30,18 +32,34 @@ class UserProfileViewHolder(
                     .into(userImage)
 
                 val color = when (user.status) {
-                    UserStatus.DEFAULT -> R.color.white
-                    UserStatus.ACCEPTED -> R.color.light_green
-                    UserStatus.DECLINED -> R.color.light_red
-                }
+                    UserStatus.DEFAULT -> MaterialColors.getColor(
+                        itemView,
+                        com.google.android.material.R.attr.colorSurface
+                    )
 
-                val score = MatchScore.getMatchScore(user)
+                    UserStatus.ACCEPTED -> ContextCompat.getColor(
+                        userCard.context,
+                        R.color.light_green
+                    )
+
+                    UserStatus.DECLINED -> ContextCompat.getColor(
+                        userCard.context,
+                        R.color.light_red
+                    )
+                }
+                acceptButton.isVisible = user.status != UserStatus.ACCEPTED
+                declineButton.isVisible = user.status != UserStatus.DECLINED
+
+                val score =
+                    LocalDataBaseEntryPoint.getMatchScore(itemView.context.applicationContext)
+                        .getScore(user)
+
                 binding.matchScore.text =
                     itemView.context.getString(
                         R.string.match_score_format, score
                     )
 
-                userCard.setCardBackgroundColor(ContextCompat.getColor(userCard.context, color))
+                userCard.setCardBackgroundColor(color)
 
                 acceptButton.setOnClickListener {
                     onAcceptClick(user)

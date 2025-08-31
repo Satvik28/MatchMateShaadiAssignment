@@ -7,12 +7,12 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.matchmateassignment.data.local.UserProfileDataBase
 import com.example.matchmateassignment.data.local.UserProfileDbData
-import com.example.matchmateassignment.data.remote.UserApi
+import com.example.matchmateassignment.data.remote.RemoteDataApi
 import com.example.matchmateassignment.data.remote.UserProfileData.Companion.toDbList
 
 @OptIn(ExperimentalPagingApi::class)
 class UserRemoteMediator(
-    private val userApi: UserApi,
+    private val remoteDataApi: RemoteDataApi,
     private val userDatabase: UserProfileDataBase
 ) : RemoteMediator<Int, UserProfileDbData>() {
 
@@ -25,7 +25,10 @@ class UserRemoteMediator(
     ): MediatorResult {
         try {
             val page = when (loadType) {
-                LoadType.REFRESH -> 1
+                LoadType.REFRESH -> {
+                    1
+                }
+
                 LoadType.PREPEND -> {
                     val remoteKeys = getRemoteKeyForFirstItem(state)
                     remoteKeys?.prevPage
@@ -47,7 +50,7 @@ class UserRemoteMediator(
 //                return MediatorResult.Success(endOfPaginationReached = false)
 //            }
 
-            val response = userApi.getUserList(page = page, results = state.config.pageSize)
+            val response = remoteDataApi.getUserList(page = page, results = state.config.pageSize)
             val users = response.results.toDbList()
             val endOfPagination = users.isEmpty()
 
@@ -86,6 +89,4 @@ class UserRemoteMediator(
             remoteKeyDao.getRemoteKey(it.uuid)
         }
     }
-
-
 }

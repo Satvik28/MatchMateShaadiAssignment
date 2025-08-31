@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="light_green">#90EE90</color>
-    <color name="light_red">#FFC0CB</color>"
+
+    <color name="md_theme_light_background">#FFFBFE</color>
+    <color name="md_theme_light_onBackground">#1C1B1F</color>
+    <color name="md_theme_light_surface">#FFFFFF</color>
+    <color name="md_theme_light_onSurface">#1C1B1F</color>
+    <color name="md_theme_light_onSurfaceVariant">#49454F</color>
+
+    <color name="md_theme_dark_background">#1C1B1F</color>
+    <color name="md_theme_dark_onBackground">#E6E1E5</color>
+    <color name="md_theme_dark_surface">#2B292D</color>
+    <color name="md_theme_dark_onSurface">#DC90DA</color>
+    <color name="md_theme_dark_onSurfaceVariant">#322842</color>
+
+    <color name="light_green">#ACF4AC</color>
+    <color name="light_red">#E71C3E</color>
 </resources>

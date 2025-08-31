@@ -4,7 +4,7 @@ import com.example.matchmateassignment.utils.AppConstants
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface UserApi {
+interface RemoteDataApi {
     @GET("api/")
     suspend fun getUserList(
         @Query("page") page: Int,

@@ -9,7 +9,7 @@ import com.example.matchmateassignment.R
 import com.example.matchmateassignment.databinding.LoadStateItemBinding
 
 class LoadStateViewHolder(
-    parent: ViewGroup,
+    private val parent: ViewGroup,
     retry: () -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context)
@@ -21,7 +21,8 @@ class LoadStateViewHolder(
 
     fun bind(loadState: LoadState) {
         if (loadState is LoadState.Error) {
-            binding.errorMsg.text = "Something went wrong, make sure internet is available"
+            binding.errorMsg.text =
+                parent.context.getString(R.string.make_sure_internet_is_available)
         }
 
         binding.progressBar.isVisible = loadState is LoadState.Loading

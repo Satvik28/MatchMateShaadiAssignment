@@ -23,15 +23,14 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val userViewModel: UserViewModel by viewModels()
-    val binding: ActivityMainBinding by lazy {
-        DataBindingUtil.setContentView(this, R.layout.activity_main)
-    }
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(binding.rootLayout)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
         val userListAdapter = UserListAdapter(
             onAcceptClick = {
                 userViewModel.changeUserStatus(it.uuid, UserStatus.ACCEPTED)
@@ -53,7 +52,7 @@ class MainActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     userViewModel.userList.collectLatest {
-                        //delay(2000)
+                        //delay(5000)
                         userListAdapter.submitData(it)
                     }
                 }

@@ -6,7 +6,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "user_profile_db")
 data class UserProfileDbData(
     @PrimaryKey val uuid: String,
-    val fullName: String,
+    val title: String,
+    val firstName: String,
+    val lastName: String,
     val gender: String,
     val city: String,
     val state: String,
@@ -17,4 +19,8 @@ data class UserProfileDbData(
     val familyType: String,
     val dietOption: String,
     val status: UserStatus = UserStatus.DEFAULT
-)
+) {
+    fun getFullName(): String {
+        return "$title $firstName $lastName"
+    }
+}

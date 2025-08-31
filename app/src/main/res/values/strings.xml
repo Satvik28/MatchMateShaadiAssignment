@@ -2,4 +2,11 @@
     <string name="app_name">MatchMateAssignment</string>
     <string name="match_score_format">Match Score: %d</string>
     <string name="user_age_string">Age: %d</string>
+    <string name="make_sure_internet_is_available">Something went wrong, make sure internet is available</string>
+    <string name="retry">Retry</string>
+    <string name="no_users_found">No Users found</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="profile_matches">Profile Matches</string>
 </resources>

@@ -77,4 +77,5 @@
  ### Reflection Task
    - I would add a screen to get my user data from the current user
    - Also, I would make the match score algorithm dynamic, add a filter screen with toggles for each field, and the user will turn on or off the particular field, and then they would get the match score accordingly
+   - I would also add a manager to give you are offline toaast whenever ever no internet.
   

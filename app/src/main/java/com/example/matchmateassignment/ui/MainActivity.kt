@@ -46,6 +46,13 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             recyclerView.adapter = mainCombinedAdapter
             recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+            refreshButton.setOnClickListener {
+                if (userListAdapter.itemCount == 0) {
+                    userListAdapter.refresh()
+                } else {
+                    userListAdapter.retry()
+                }
+            }
         }
 
         lifecycleScope.launch {
@@ -63,16 +70,16 @@ class MainActivity : AppCompatActivity() {
                             is LoadState.Loading -> {
                                 binding.progressBar.isVisible = true
                                 binding.recyclerView.isVisible = false
-                                binding.emptyDefaultView.isVisible = false
+                                binding.container.isVisible = false
                             }
 
                             is LoadState.Error -> {
                                 binding.progressBar.isVisible = false
                                 if (userListAdapter.itemCount == 0) {
-                                    binding.emptyDefaultView.isVisible = true
+                                    binding.container.isVisible = true
                                 } else {
                                     binding.recyclerView.isVisible = true
-                                    binding.emptyDefaultView.isVisible = false
+                                    binding.container.isVisible = false
                                 }
 
                             }
@@ -82,6 +89,7 @@ class MainActivity : AppCompatActivity() {
                                 val isEmptyList = userListAdapter.itemCount == 0
                                 binding.emptyDefaultView.isVisible = isEmptyList
                                 binding.recyclerView.isVisible = !isEmptyList
+                                binding.container.isVisible = isEmptyList
                             }
                         }
 

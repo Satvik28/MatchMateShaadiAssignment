@@ -1,4 +1,4 @@
-package com.example.matchmateassignment.ui
+package com.example.matchmateassignment.ui.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

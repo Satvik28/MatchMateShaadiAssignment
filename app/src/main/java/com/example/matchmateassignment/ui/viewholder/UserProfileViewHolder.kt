@@ -1,4 +1,4 @@
-package com.example.matchmateassignment.ui
+package com.example.matchmateassignment.ui.viewholder
 
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -51,7 +51,7 @@ class UserProfileViewHolder(
                 declineButton.isVisible = user.status != UserStatus.DECLINED
 
                 val score =
-                    LocalDataBaseEntryPoint.getMatchScore(itemView.context.applicationContext)
+                    LocalDataBaseEntryPoint.Companion.getMatchScore(itemView.context.applicationContext)
                         .getScore(user)
 
                 binding.matchScore.text =

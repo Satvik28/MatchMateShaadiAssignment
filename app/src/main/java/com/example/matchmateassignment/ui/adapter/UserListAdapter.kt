@@ -1,10 +1,11 @@
-package com.example.matchmateassignment.ui
+package com.example.matchmateassignment.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.example.matchmateassignment.data.local.UserProfileDbData
 import com.example.matchmateassignment.databinding.UserItemBinding
+import com.example.matchmateassignment.ui.viewholder.UserProfileViewHolder
 import com.example.matchmateassignment.utils.DiffUtil
 
 class UserListAdapter(

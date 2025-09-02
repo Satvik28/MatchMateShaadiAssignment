@@ -57,18 +57,17 @@ class UserRemoteMediator(
             userDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH && users.isNotEmpty()) { // not consider in our case we want same data generation
                     remoteKeyDao.clearRemoteKeys()
-                    userDao.clearAll()
                 }
 
                 val keys = users.map {
                     UserRemoteKeys(
-                        id = it.uuid,
+                        uuid = it.uuid,
                         prevPage = if (page == 1) null else page - 1,
                         nextPage = if (endOfPagination) null else page + 1
                     )
                 }
                 userDatabase.remoteKeyDao().insertAllRemoteKeys(keys)
-                userDatabase.userProfileDao().upsertUsers(users)
+                userDatabase.userProfileDao().insertUsers(users)
             }
 
             return MediatorResult.Success(endOfPagination)

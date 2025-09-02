@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.matchmateassignment.R
 import com.example.matchmateassignment.data.local.UserStatus
 import com.example.matchmateassignment.databinding.ActivityMainBinding
+import com.example.matchmateassignment.ui.adapter.UserListAdapter
+import com.example.matchmateassignment.ui.adapter.UserLoadStateAdapter
+import com.example.matchmateassignment.ui.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

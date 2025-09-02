@@ -1,4 +1,4 @@
-package com.example.matchmateassignment.ui
+package com.example.matchmateassignment.ui.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
